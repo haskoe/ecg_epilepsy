@@ -13,6 +13,7 @@ function plot_csi(r_info, N, secs_before_episode)
     
     % normalize CSI to same max as modCSI
     fact = max(modCSI)/max(CSI);
-    plot(t,modCSI,t,fact*CSI); %,t,episode);
+    %plot(t,modCSI,t,fact*CSI); %,t,episode);
+    plot(t,CSI); %,t,episode);
     title('modCSI, CSI normalized, seizure start');
 end
