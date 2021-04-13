@@ -3,7 +3,7 @@ function r_info = qrs_detect(samples,sf,median_left_right)
     r_info.indices = r_indices;
     rr = diff(r_indices)/sf;
     if median_left_right>0
-        rr = movmedian(rr,median_left_right,median_left_right)
+        rr = movmedian(rr,median_left_right,median_left_right);
     end
     r_info.rr = rr;
 end

@@ -1,5 +1,5 @@
-function patient = load_patient(patient_id)
-    load( fullfile('mat', ['patient-all-' convertStringsToChars(patient_id)]));
+function patient = load_patient(patient_id,params)
+    load( fullfile(params.mat_file_path, [params.mat_filename_start convertStringsToChars(patient_id)]));
     patient.num_episodes = size(patient.episodes,1);
     patient.num_samples = length(patient.samples);
     patient.valid_episodes = 0;
