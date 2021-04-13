@@ -9,10 +9,10 @@ function plot_csi(r_info, N, secs_before_episode)
     rr_cumsum = cumsum(r_info.rr);
     episode_start_idx = find(rr_cumsum>secs_before_episode,1) - N/2;
     episode = zeros(1,length(t));
-    episode(episode_start_idx(1))=max(modCSI);
+    %episode(episode_start_idx(1))=max(modCSI);
     
     % normalize CSI to same max as modCSI
     fact = max(modCSI)/max(CSI);
-    plot(t,modCSI,t,fact*CSI,t,episode);
+    plot(t,modCSI,t,fact*CSI); %,t,episode);
     title('modCSI, CSI normalized, seizure start');
 end

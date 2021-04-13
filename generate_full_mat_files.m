@@ -18,8 +18,8 @@ for i = 1:length(files)
         l = length(Output.Untitled.EKG.data(1, :));
 
         for s = 1:size(ofs, 1)
-            seizure_start_idx = ofs(s, 1).start * sf;
-            seizure_samples = ofs(s, 2).length * sf;
+            seizure_start_idx = ofs(s, 1).start * params.sf;
+            seizure_samples = ofs(s, 2).length * params.sf;
 
             info(end+1,:) = [seizure_start_idx seizure_samples];
         end
