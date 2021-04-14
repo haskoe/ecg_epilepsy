@@ -1,12 +1,12 @@
 function params = load_params()
     % parameters below are no longer used due to use of new QRS detection
     % algorithm
-    %load s_b_coeff.mat;
+    load s_b_coeff.mat;
 
-    %params.b_avg = b_avg;
-    %params.b_high = b_high;
-    %params.b_low = b_low;
-    %params.delay = delay;
+    params.b_avg = b_avg;
+    params.b_high = b_high;
+    params.b_low = b_low;
+    params.delay = delay;
     %params.desc_filt = desc_filt;
     
     params.sf = 512;
