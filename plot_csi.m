@@ -1,5 +1,5 @@
 function plot_csi(r_info, N, secs_before_episode)
-    [modCSI,CSI]=csi(r_info.rr,N);
+    [modCSI,CSI]=calc_csi(r_info.rr,N);
     t=1:length(modCSI);
     
     % find index of the first CSI value that has seizure start in the middle of the CSI calculating window (N rr values)

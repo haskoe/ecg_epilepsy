@@ -1,4 +1,4 @@
- function [modCSI, CSI] = csi(RR, N)
+ function [modCSI, CSI] = calc_csi(RR, N)
     % Using the HRV (RR) as input calculate CSI and modified CSI slope
     %Calculating ModCSI100filtered*slope and CSI100*slope:
 

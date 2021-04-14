@@ -40,7 +40,7 @@ for p=1:num_periods
 
     %rr=get_HRV(qrs, 512);
 
-    [modCSI,CSI]=csi(qrs_amp_raw,100);
+    [modCSI,CSI]=calc_csi(qrs_amp_raw,100);
     t=1:length(modCSI);
     plot(t,modCSI);
 end
