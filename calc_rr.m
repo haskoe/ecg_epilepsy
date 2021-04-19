@@ -28,8 +28,12 @@ function rr = calc_rr(qrs_func_name,samples, params)
         
         if acc_time<secs_win_size-2
             % calculate extra RR elements needed
-            rr_extra = round((secs_win_size-acc_time)/rr(end));
-            temp = [ones(1,rr_extra)*rr(end) temp];
+            fact=0.8;
+            if length(rr)>0
+                fact=rr(end);
+            end
+            rr_extra = round((secs_win_size-acc_time)/fact);
+            temp = [ones(1,rr_extra)*fact temp];
         end
         
         % acc_time check 
