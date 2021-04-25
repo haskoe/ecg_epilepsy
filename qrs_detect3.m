@@ -82,28 +82,37 @@ switch nargin
         REF_PERIOD=varargin{1}; 
         THRES=varargin{2}; 
         fs=varargin{3}; 
-        fid_vec=varargin{4};
+        filter_func=varargin{4};
     case 6
         REF_PERIOD=varargin{1}; 
         THRES=varargin{2}; 
-        fs=varargin{3};
-        fid_vec=varargin{4}; 
-        SIGN_FORCE=varargin{5};
+        fs=varargin{3}; 
+        filter_func=varargin{4};
+        fid_vec=varargin{5};
     case 7
         REF_PERIOD=varargin{1}; 
         THRES=varargin{2}; 
         fs=varargin{3};
-        fid_vec=varargin{4};
-        SIGN_FORCE=varargin{5};          
-        debug=varargin{6};
+        filter_func=varargin{4};
+        fid_vec=varargin{5}; 
+        SIGN_FORCE=varargin{5};
     case 8
         REF_PERIOD=varargin{1}; 
         THRES=varargin{2}; 
         fs=varargin{3};
-        fid_vec=varargin{4};
-        SIGN_FORCE=varargin{5};          
-        debug=varargin{6};
-        WIN_SAMP_SZ = varargin{7};
+        filter_func=varargin{4};
+        fid_vec=varargin{5};
+        SIGN_FORCE=varargin{6}; 
+        debug=varargin{7};
+    case 9
+        REF_PERIOD=varargin{1}; 
+        THRES=varargin{2}; 
+        fs=varargin{3};
+        filter_func=varargin{4};
+        fid_vec=varargin{5};
+        SIGN_FORCE=varargin{6};          
+        debug=varargin{7};
+        WIN_SAMP_SZ = varargin{8};
     otherwise
         error('qrs_detect: wrong number of input arguments \n');
 end
@@ -123,22 +132,7 @@ MIN_AMP = 0.1; % if the median of the filtered ECG is inferior to MINAMP then it
 NB_SAMP = length(ecg); % number of input samples
 
 try
-    % == Bandpass filtering for ECG signal
-    % this sombrero hat has shown to give slightly better results than a
-    % standard band-pass filter. Plot the frequency response to convince
-    % yourself of what it does
-    b1 = [-7.757327341237223e-05  -2.357742589814283e-04 -6.689305101192819e-04 -0.001770119249103 ...
-         -0.004364327211358 -0.010013251577232 -0.021344241245400 -0.042182820580118 -0.077080889653194...
-         -0.129740392318591 -0.200064921294891 -0.280328573340852 -0.352139052257134 -0.386867664739069 ...
-         -0.351974030208595 -0.223363323458050 0 0.286427448595213 0.574058766243311 ...
-         0.788100265785590 0.867325070584078 0.788100265785590 0.574058766243311 0.286427448595213 0 ...
-         -0.223363323458050 -0.351974030208595 -0.386867664739069 -0.352139052257134...
-         -0.280328573340852 -0.200064921294891 -0.129740392318591 -0.077080889653194 -0.042182820580118 ...
-         -0.021344241245400 -0.010013251577232 -0.004364327211358 -0.001770119249103 -6.689305101192819e-04...
-         -2.357742589814283e-04 -7.757327341237223e-05];
-
-    b1 = resample(b1,fs,250);
-    bpfecg = filtfilt(b1,1,ecg)';
+    bpfecg = feval( filter_func, ecg, fs);
     
     %if (sum(abs(ecg-median(ecg))>MIN_AMP)/NB_SAMP)>0.05
         % if 20% of the samples have an absolute amplitude which is higher
