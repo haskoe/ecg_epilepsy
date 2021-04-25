@@ -6,7 +6,10 @@ patient = load_patient( pid, params);
 
 samples = patient.samples(start_idx:start_idx+win_size-1);
 
-filters = ["sombrero" "butter_filter"];
+%filters = ["sombrero" "butter_filter"];
+f1 = make_sombrero(params.sf);
+f2 = make_butter(1,0.6);
+filters = {f1,f2};
 compare_detect(samples,params,filters);
 
 % i python

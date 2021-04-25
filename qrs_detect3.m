@@ -132,7 +132,8 @@ MIN_AMP = 0.1; % if the median of the filtered ECG is inferior to MINAMP then it
 NB_SAMP = length(ecg); % number of input samples
 
 try
-    bpfecg = feval( filter_func, ecg, fs);
+    %bpfecg = feval( filter_func, ecg, fs);
+    bpfecg = filter_func(ecg);
     
     %if (sum(abs(ecg-median(ecg))>MIN_AMP)/NB_SAMP)>0.05
         % if 20% of the samples have an absolute amplitude which is higher
