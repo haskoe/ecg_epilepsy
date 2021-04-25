@@ -1,14 +1,17 @@
 params = load_params();
-start_idx=132000;
-win_size = 20 * params.sf;
-pid = '2';
+
+pid = '16';
 patient = load_patient( pid, params);
+
+ls=length(patient.samples);
+start_idx=ceil(9.2/200*ls);
+win_size = ceil(9.4/200*ls) - start_idx;
 
 samples = patient.samples(start_idx:start_idx+win_size-1);
 
 %filters = ["sombrero" "butter_filter"];
 f1 = make_sombrero(params.sf);
-f2 = make_butter(1,0.6);
+f2 = make_butter(1,0.15);
 filters = {f1,f2};
 compare_detect(samples,params,filters);
 

@@ -1,21 +1,26 @@
 params = load_params();
-start_idx=132000;
-win_size = 200 * params.sf;
-pid = '2';
+
+ls=length(samples);
+start_idx=ceil(8.2/200*ls);
+win_size = ceil(13/200*ls) - start_idx;
+pid = '16';
 patient = load_patient( pid, params);
 
 samples = patient.samples(start_idx:start_idx+win_size-1);
+binranges=[0 0.3:0.1:2];
 
-qrs_detect_funcs = {};
-for o=1:6
-    qrs_detect_funcs{end+1} = make_qrs_detect3(make_butter(o,0.01), params);
+fracts = 0.25:0.05:0.4;
+hist_mat = [];
+for f=1:length(fracts)
+    filter = make_butter(2,fracts(f));
+    %plot(x,samples, x, filter(samples));
+    
+    rr = calc_rr_no_fill( make_qrs_detect3(filter,params), samples,params );
+    plot(rr);
+    histo = histc( rr, binranges);
+    hist_mat(end+1, :) = histo;
 end
-fracts = 0.5:0.05:0.8;
-fracts = 0.01:0.02:0.1;
-%for f=1:length(fracts)
-%    qrs_detect_funcs{end+1} = make_qrs_detect3(make_butter(order,fracts(f)), params);
-%end
-qrs_detect_funcs{end+1} = make_qrs_detect3(make_sombrero(params.sf), params);
+rr = calc_rr_no_fill( make_qrs_detect3(make_sombrero(params.sf),params), samples,params );
+hist_mat(end+1, :) = histc( rr, binranges);
 
-binranges=0.3:0.1:1;
-qrs_detect_histogram(samples,params,qrs_detect_funcs,binranges)
+bar(hist_mat);
