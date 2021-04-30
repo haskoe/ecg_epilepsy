@@ -5,6 +5,10 @@
 
 # User-specific files
 mat/
+v2p6/
+tdms/
+*.pdf
+
 *.suo
 *.user
 *.userosscache

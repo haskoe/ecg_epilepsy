@@ -1,7 +1,7 @@
 function patient_plot_csi(pid, secs_before_episode, secs_after_episode)
     params = load_params();
     patient = load_patient(pid,params);
-    for e=1:patient.valid_episodes
+    for e=1:patient.num_episodes
         sub_samples = get_episode_samples( patient, params.sf, e, secs_before_episode, secs_after_episode);
 
         r_info = qrs_detect(sub_samples,params.sf,2);

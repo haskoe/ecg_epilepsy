@@ -12,17 +12,18 @@ samples = patient.samples;
 
 temp=qrs_detect3_(samples,params,make_butter(2,[5/(params.sf/2) 30/(params.sf/2)]));
 
-rr=[(temp(1)/params.sf) (diff(temp)/params.sf)]; %rr intervals in s.
+rr=diff(temp)/params.sf; %rr intervals in s.
 
 time=cumsum(rr);
 timelost=(length(samples)/params.sf)-time(end);
 
 rr_time_axis=linspace(0,time(end),length(rr));
 
-plot(rr_time_axis,rr);
+%plot(rr_time_axis,rr);
 
 
 csi = calc_csi(patient,params,rr,100);
+mx = max(csi.modCSI);
 plot(csi.t,csi.modCSI,csi.t,csi.episodes);
 
 
@@ -35,7 +36,7 @@ save('RRdata_pat16.mat','temp','rr','rr_time_axis');
 % signal. This is 75000/202863=36.97% into the signal. We investigate the
 % RR interval detection 36.97% into the raw signal.
 
-csi_snip = calc_csi(patient,params,rr(74000:77000),100);
+%csi_snip = calc_csi(patient,params,rr(74000:77000),100);
 
 plot(csi_snip.modCSI)
 
