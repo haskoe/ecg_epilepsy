@@ -21,7 +21,7 @@ public class App {
         try(BufferedReader in = new BufferedReader(new FileReader(fileName))) {
             String str;
             while ((str = in.readLine()) != null) {
-                double rr = Double.parseDouble(str));
+                double rr = Double.parseDouble(str);
                 result = movingCsi.addRR(rr);
             }
         }
