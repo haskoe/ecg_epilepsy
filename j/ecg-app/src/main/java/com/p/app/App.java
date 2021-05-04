@@ -2,6 +2,9 @@ package com.p.app;
 
 import java.util.List;
 import java.util.Random;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class App {
     public static void main(String[] args) {
@@ -13,9 +16,17 @@ public class App {
 
         MovingCsi movingCsi = new MovingCsi(100, 3);
         CsiResult result = null;
-        double[] rr = MovingCsi.readCsv("\\Users\\henri\\proj\\p\\Epilepsy_project\\new\\p16.dat");
-        for (int i = 0; i < rr.length; i++) {
-            result = movingCsi.addRR(rr[i]);
+
+        String fileName = "\\Users\\henri\\proj\\p\\Epilepsy_project\\new\\p16.dat";
+        try(BufferedReader in = new BufferedReader(new FileReader(fileName))) {
+            String str;
+            while ((str = in.readLine()) != null) {
+                double rr = Double.parseDouble(str));
+                result = movingCsi.addRR(rr);
+            }
         }
+        catch (IOException e) {
+            System.out.println("File Read Error");
+        }        
     }
 }
