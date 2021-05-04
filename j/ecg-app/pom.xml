@@ -36,11 +36,6 @@ mvn compile
       <version>4.11</version>
       <scope>test</scope>
     </dependency>
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-math3</artifactId>
-      <version>3.6</version>
-    </dependency>
   </dependencies>
 
   <build>

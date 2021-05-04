@@ -3,8 +3,6 @@ package com.p.app;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.math3.stat.regression.SimpleRegression;
-
 public class Csi {
     public static List<CsiResult> CalcCsi(double[] rr, int winSize) { // throws Exception {
         int numResults = rr.length - winSize;
@@ -16,16 +14,25 @@ public class Csi {
         double[] cumSum = CumSum(rr);
         double[] medRR = Cfg.findMedian(rr, medianWindow);
 
-        
+        SimpleRegression simpleRegression = new SimpleRegression();
+
         List<Double> neighbourDiff = new ArrayList<Double>();
         List<Double> neighbourAdd = new ArrayList<Double>();
         List<Double> neighbourModDiff = new ArrayList<Double>();
         List<Double> neighbourModAdd = new ArrayList<Double>();
         for (int i = 1; i < rr.length; i++) {
+            simpleRegression.addData(cumSum[i-1],medRR[i-1]);
+            if (simpleRegression.getN()>100)
+                simpleRegression.popFirst();
+
+            double slope = simpleRegression.getSlope();
+
             neighbourDiff.add(rr[i - 1] - rr[i]);
             neighbourAdd.add(rr[i - 1] + rr[i]);
             neighbourModDiff.add(medRR[i - 1] - medRR[i]);
             neighbourModAdd.add(medRR[i - 1] + medRR[i]);
+
+
         }
 
         return null;
