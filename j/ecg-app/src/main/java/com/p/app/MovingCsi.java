@@ -3,6 +3,9 @@ package com.p.app;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
 /*
 A real-time moving CSI calculator:
@@ -72,6 +75,8 @@ public class MovingCsi {
                     neighbourModDiff.remove(0);
                     double slope1 = _simpleRegression.getSlope();
                     _simpleRegression.popFirst();
+                    _rrMedAcc.remove(0);
+                    _rrAcc.remove(0);
                 }
 
                 if (neighbourModDiff.size() >= _winSize) {
@@ -116,5 +121,20 @@ public class MovingCsi {
 
     public static double[] toUnboxedDoubleArray(List<Double> arr) {
         return Arrays.stream(arr.toArray(new Double[0])).mapToDouble(Double::doubleValue).toArray();
+    }
+
+    public static double[] readCsv(final String fileName) {
+        List<Double> temp = new ArrayList<Double>();
+
+        try(BufferedReader in = new BufferedReader(new FileReader(fileName))) {
+            String str;
+            while ((str = in.readLine()) != null) {
+                temp.add(Double.parseDouble(str));
+            }
+        }
+        catch (IOException e) {
+            System.out.println("File Read Error");
+        }        
+        return toUnboxedDoubleArray(temp);
     }
 }
