@@ -84,13 +84,15 @@ public class MovingCsi {
                     // the CSI stddev's can be calculated
                     double sd1Mod = calcSD(toUnboxedDoubleArray(neighbourModDiff));
                     double sd2Mod = calcSD(toUnboxedDoubleArray(neighbourModAdd));
-                    result.ModCsi = _fact * 4 * sd2Mod * sd2Mod / sd1Mod;
+                    double modCsi = _fact * 4 * sd2Mod * sd2Mod / sd1Mod;
+                    result.ModCsi = modCsi;
 
                     double sd1 = calcSD(toUnboxedDoubleArray(neighbourDiff));
                     double sd2 = calcSD(toUnboxedDoubleArray(neighbourAdd));
 
                     double slope = _simpleRegression.getSlope();
-                    result.Csi = _fact * sd2 / sd1 * slope;
+                    double csi = _fact * sd2 / sd1; // * slope;
+                    result.Csi = csi;
                 }
             }
         }

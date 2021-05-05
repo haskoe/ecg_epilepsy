@@ -15,14 +15,19 @@ public class App {
         // }
 
         MovingCsi movingCsi = new MovingCsi(100, 3);
-        CsiResult result = null;
-
-        String fileName = "\\Users\\henri\\proj\\p\\Epilepsy_project\\new\\p16.dat";
+        String fileName = "\\Users\\henri\\proj\\p\\Epilepsy_project\\new\\p16-rr.dat";
         try(BufferedReader in = new BufferedReader(new FileReader(fileName))) {
             String str;
+            int cnt = 0;
             while ((str = in.readLine()) != null) {
                 double rr = Double.parseDouble(str);
-                result = movingCsi.addRR(rr);
+                CsiResult result = movingCsi.addRR(rr);
+                if (null != result) {
+                    System.out.println(result.Csi);
+                    cnt += 1;
+                    if (cnt>1000)
+                        break;
+                }
             }
         }
         catch (IOException e) {
