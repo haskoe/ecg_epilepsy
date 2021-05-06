@@ -47,7 +47,7 @@ public class MovingCsi {
         if (_rrAcc.size() >= _medianWinSize) {
             // the median can be calculated
             List<Double> medianWindow = _rrAcc.subList(_rrAcc.size() - _medianWinSize, _rrAcc.size());
-            double median = calcMedian(toUnboxedDoubleArray(medianWindow), _medianHalfSize);
+            double median = calcMedian(medianWindow, _medianHalfSize);
             _rrMedAcc.add(median);
 
             double x = _rrAcc.get(_rrAcc.size() - _medianHalfSize - 1);
@@ -82,13 +82,13 @@ public class MovingCsi {
                 if (neighbourModDiff.size() >= _winSize) {
                     result = new CsiResult();
                     // the CSI stddev's can be calculated
-                    double sd1Mod = calcSD(toUnboxedDoubleArray(neighbourModDiff));
-                    double sd2Mod = calcSD(toUnboxedDoubleArray(neighbourModAdd));
+                    double sd1Mod = calcSD(neighbourModDiff);
+                    double sd2Mod = calcSD(neighbourModAdd);
                     double modCsi = _fact * 4 * sd2Mod * sd2Mod / sd1Mod;
                     result.ModCsi = modCsi;
 
-                    double sd1 = calcSD(toUnboxedDoubleArray(neighbourDiff));
-                    double sd2 = calcSD(toUnboxedDoubleArray(neighbourAdd));
+                    double sd1 = calcSD(neighbourDiff);
+                    double sd2 = calcSD(neighbourAdd);
 
                     double slope = _simpleRegression.getSlope();
                     double csi = _fact * sd2 / sd1; // * slope;
@@ -99,11 +99,11 @@ public class MovingCsi {
         return result;
     }
 
-    public static double calcSD(double numArray[]) {
+    public static double calcSD(List<Double> numArray) {
         double sum = 0.0, standardDeviation = 0.0;
-        int length = numArray.length;
+        int length = numArray.size();
 
-        for (double num : numArray) {
+        for (Double num : numArray) {
             sum += num;
         }
 
@@ -116,27 +116,24 @@ public class MovingCsi {
         return Math.sqrt(standardDeviation / length);
     }
 
-    public static double calcMedian(double[] arr, int medianHalfSize) {
+    public static double calcMedian(List<Double> lst, int medianHalfSize) {
+        Double[] arr = new Double[lst.size()];
+        lst.toArray(arr);
         Arrays.sort(arr);
         return arr[medianHalfSize];
     }
 
-    public static double[] toUnboxedDoubleArray(List<Double> arr) {
-        return Arrays.stream(arr.toArray(new Double[0])).mapToDouble(Double::doubleValue).toArray();
-    }
-
-    public static double[] readCsv(final String fileName) {
+    public static List<Double> readCsv(final String fileName) {
         List<Double> temp = new ArrayList<Double>();
 
-        try(BufferedReader in = new BufferedReader(new FileReader(fileName))) {
+        try (BufferedReader in = new BufferedReader(new FileReader(fileName))) {
             String str;
             while ((str = in.readLine()) != null) {
                 temp.add(Double.parseDouble(str));
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             System.out.println("File Read Error");
-        }        
-        return toUnboxedDoubleArray(temp);
+        }
+        return temp;
     }
 }
