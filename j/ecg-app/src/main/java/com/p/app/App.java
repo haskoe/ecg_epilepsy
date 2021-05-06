@@ -1,21 +1,23 @@
 package com.p.app;
 
-import java.util.List;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Random;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
 public class App {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         //Random rand = new Random();
         // CsiResult result = null;
         // for (int i = 0; i < 1000; i++) {
         //     result = movingCsi.addRR(1000 * (0.8 + 0.1 * rand.nextDouble()));
         // }
-
+        String homeDir = System.getProperty("user.home");
+        Path pth = Paths.get( homeDir, "proj", "haskoe", "ecg_epilepsy", "p16-rr.dat");
         MovingCsi movingCsi = new MovingCsi(100, 3);
-        String fileName = "\\Users\\henri\\proj\\p\\Epilepsy_project\\new\\p16-rr.dat";
+        String fileName = pth.getPath();
         try(BufferedReader in = new BufferedReader(new FileReader(fileName))) {
             String str;
             int cnt = 0;
