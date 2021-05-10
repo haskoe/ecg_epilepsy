@@ -54,7 +54,7 @@ function [qrs_pos,sign,en_thres,bpfecg,q_pos,s_pos] = qrs_detect3(ecg,varargin)
 WIN_SAMP_SZ = 7;
 REF_PERIOD = 0.250; 
 THRES = 0.6; 
-fs = 1000; 
+fs = 512; 
 fid_vec = [];
 SIGN_FORCE = [];
 debug = 0;
@@ -124,7 +124,7 @@ tm = 1/fs:1/fs:ceil(NB_SAMP/fs);
 
 % == constants
 MED_SMOOTH_NB_COEFF = round(fs/100);
-INT_NB_COEFF = round(WIN_SAMP_SZ*fs/256); % length is 30 for fs=256Hz  
+INT_NB_COEFF = round(WIN_SAMP_SZ*fs/256); % length is 30 for fs=256Hzm should this be changed to 512?  
 SEARCH_BACK = 1; % perform search back (FIXME: should be in function param)
 MAX_FORCE = []; % if you want to force the energy threshold value (FIXME: should be in function param)
 MIN_AMP = 0.1; % if the median of the filtered ECG is inferior to MINAMP then it is likely to be a flatline

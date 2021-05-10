@@ -3,7 +3,7 @@ function rr = calc_rr(qrs_func_name,samples, params)
     sample_win_size = secs_win_size * params.sf; % 30 min. window size5
     num_windows = ceil(length(samples) / sample_win_size);
     RR_MIN = 0.1;
-    RR_MAX = 3;
+    RR_MAX = 3; %Consider removing RR_max for the final report.
 
     rr = [];
     num_samples = length(samples);
